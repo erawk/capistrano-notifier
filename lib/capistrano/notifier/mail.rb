@@ -119,7 +119,7 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
   end
 
   def subject
-    "#{application.titleize} branch #{branch} deployed to #{stage}"
+    "#{application} tag #{branch} deployed to #{cap.rails_env}"
   end
 
   def text
