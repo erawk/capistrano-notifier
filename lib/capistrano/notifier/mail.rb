@@ -71,11 +71,16 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
   def body
     <<-BODY.gsub(/^ {6}/, '')
       #{user_name} deployed #{application}
-      with tag #{branch}
+      tagged #{branch}
       to #{cap.rails_env} at #{now.strftime("%m/%d/%Y")}
 
+      Compare app revisions with a diff:
       #{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}
+
+      Commit log:
       #{git_log}
+
+      Enjoy! Make sure those unicorns are reaped!
     BODY
   end
 
