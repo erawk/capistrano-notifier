@@ -74,7 +74,7 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
       with tag #{branch}
       to #{cap.current_task} at #{now.strftime("%m/%d/%Y")}
 
-      #{git_rev_range}
+      <a href="#{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}">#{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}</a>
       #{git_log}
     BODY
   end
@@ -105,8 +105,6 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
 
   def html
     body.gsub(
-      /(r\d{1,2}.\d{1,2})\.\.(r\d{1,2}.\d{1,2})/, "<a href=\"#{github_compare_prefix}/\\1...\\2\">\\1..\\2</a>"
-    ).gsub(
       /^([0-9a-f]{7})/, "<a href=\"#{github_commit_prefix}/\\0\">\\0</a>"
     )
   end
