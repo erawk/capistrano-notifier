@@ -72,7 +72,7 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
     <<-BODY.gsub(/^ {6}/, '')
       #{user_name} deployed #{application}
       with tag #{branch}
-      to #{current_task} at #{now.strftime("%m/%d/%Y")}
+      to #{cap.current_task} at #{now.strftime("%m/%d/%Y")}
 
       #{git_rev_range}
       #{git_log}
