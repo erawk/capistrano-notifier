@@ -17,8 +17,9 @@ class Capistrano::Notifier::Base
     @cap
   end
 
+  # use branch tag instead
   def git_current_revision
-    cap.current_revision[0,7] if cap.respond_to? :current_revision
+    branch if cap.respond_to? :branch
   end
 
   def git_log
@@ -27,8 +28,9 @@ class Capistrano::Notifier::Base
     `git log #{git_range} --no-merges --format=format:"%h %s (%an)"`
   end
 
+  # use git tags instead of rev
   def git_previous_revision
-    cap.previous_revision[0,7] if cap.respond_to? :previous_revision
+    `git tag -l`.split(/\n/)[-2] # second last revision
   end
 
   def git_range

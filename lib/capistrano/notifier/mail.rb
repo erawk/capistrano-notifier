@@ -70,16 +70,17 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
 
   def body
     <<-BODY.gsub(/^ {6}/, '')
-      #{user_name} deployed
-      #{application.titleize} branch
-      #{branch} to
-      #{stage} on
-      #{now.strftime("%m/%d/%Y")} at
-      #{now.strftime("%I:%M %p %Z")}
+      #{user_name} deployed #{application}
+      with tag #{branch}
+      to #{current_task} at #{now.strftime("%m/%d/%Y")}
 
-      #{git_range}
+      #{git_rev_range}
       #{git_log}
     BODY
+  end
+
+  def git_rev_range
+    cap.notifier_mail_options[:use_tags] ? git_tag_range : git_range
   end
 
   def from
@@ -104,7 +105,7 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
 
   def html
     body.gsub(
-      /([0-9a-f]{7})\.\.([0-9a-f]{7})/, "<a href=\"#{github_compare_prefix}/\\1...\\2\">\\1..\\2</a>"
+      /(r\d{1,2}.\d{1,2})\.\.(r\d{1,2}.\d{1,2})/, "<a href=\"#{github_compare_prefix}/\\1...\\2\">\\1..\\2</a>"
     ).gsub(
       /^([0-9a-f]{7})/, "<a href=\"#{github_commit_prefix}/\\0\">\\0</a>"
     )
