@@ -72,9 +72,9 @@ class Capistrano::Notifier::Mail < Capistrano::Notifier::Base
     <<-BODY.gsub(/^ {6}/, '')
       #{user_name} deployed #{application}
       with tag #{branch}
-      to #{cap.current_task} at #{now.strftime("%m/%d/%Y")}
+      to #{cap.rails_env} at #{now.strftime("%m/%d/%Y")}
 
-      <a href="#{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}">#{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}</a>
+      #{github_compare_prefix}/#{git_previous_revision}...#{git_current_revision}
       #{git_log}
     BODY
   end
